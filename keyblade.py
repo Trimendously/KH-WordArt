@@ -2,9 +2,9 @@ from PIL import Image,ImageFont,ImageDraw
 from random import randint
 
 def random_color():
-    r=randint(0,255)
-    g=randint(0,255)
-    b=randint(0,255)
+    r=randint(50,255)
+    g=randint(50,255)
+    b=randint(50,255)
     return r,g,b
 def choice():
     while True:
@@ -40,20 +40,29 @@ def wordart():
         draw.text((0,height_counter),word[start:len(word)]+text, font=font, fill=(r,g,b))
         height_counter = height_counter + height
 
-
     art = Image.new('RGBA',(900,900),'black')
     font1 = ImageFont.truetype("arial.ttf",200)
     width, height = font1.getsize(silhoutte)
     draw1=ImageDraw.Draw(art)
     draw1.text(((art.size[0]-width)/2,(art.size[1]-height)/2),silhoutte, font=font1, fill='white')
 
+    hor = []
+    vert = []
     # Formats text into white space of image
     for i in range(art.size[0]):
         for j in range(art.size[1]):
             pixel=art.getpixel((i,j))
-            if (pixel ==(255,255,255,255)):
-                art.putpixel((i,j),base.getpixel((i,j)))
+            if (pixel == (255,255,255,255)):
+                hor.append(i)
+                vert.append(j)
+                #art.putpixel((i,j),base.getpixel((i,j)))
 
-    art.show()
-    art.save("wordart.png")
+    # Gets rid of outline of image
+    final_art =Image.new('RGBA',(900,900),'black')
+    for i,j in zip(hor,vert):
+            final_art.putpixel((i,j),base.getpixel((i,j)))
+
+    final_art.show()
+    final_art.save("wordart.png")
+
 wordart()
